@@ -1,0 +1,24 @@
+PROBA · PLANTILLA DE PREGUNTAS
+
+Instrucciones:
+- Numera cada pregunta.
+- Escribe cuatro opciones: A), B), C) y D).
+- Añade la respuesta correcta con su letra.
+- La explicación es opcional.
+- Deja una línea en blanco entre preguntas.
+
+1. Escribe aquí tu pregunta.
+A) Primera opción.
+B) Segunda opción.
+C) Tercera opción.
+D) Cuarta opción.
+Respuesta correcta: A
+Explicación: Escribe aquí una explicación opcional.
+
+2. Escribe aquí otra pregunta.
+A) Primera opción.
+B) Segunda opción.
+C) Tercera opción.
+D) Cuarta opción.
+Respuesta correcta: C
+Explicación: Escribe aquí otra explicación opcional.
