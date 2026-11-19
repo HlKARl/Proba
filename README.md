@@ -14,7 +14,7 @@ La aplicación usa rutas relativas, por lo que funciona tanto en un dominio prop
 
 ## Importar preguntas
 
-En **Inicio**, crea una materia y luego importa uno o varios documentos. Puedes organizar, revisar, editar y eliminar bancos dentro de cada materia.
+En **Inicio**, crea una materia y luego importa uno o varios documentos. Puedes organizar, revisar, editar y eliminar bancos dentro de cada materia. En **Aventura**, activa una vez los documentos que quieras usar: Proba recordará esa selección para las siguientes partidas y añadirá automáticamente los nuevos documentos que importes.
 
 Formatos disponibles:
 
@@ -48,7 +48,7 @@ Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, po
 - **Mago:** convierte automáticamente el primer error de la campaña en un acierto y revela la respuesta correcta.
 - **Berserker:** gana el doble por cada acierto. Necesita tener oro general mayor que cero para entrar. Si pierde, pierde todo el oro de esa campaña —incluido lo que habría quedado asegurado— y además pierde el 10 % de su oro general. Si se retira o gana, conserva el oro de campaña; completar la campaña concede una bonificación especial de 50.000, mayor que la bonificación de las otras clases.
 
-Cada clase tiene su propio árbol de cinco rangos (nivel inicial y cuatro nodos). Los niveles fantasma no conceden una mejora directa, pero deben comprarse para desbloquear la siguiente habilidad. El oro es compartido entre todas las clases.
+Cada clase tiene su propio árbol de cinco rangos (nivel inicial y cuatro nodos). Los niveles fantasma no conceden una mejora directa, pero deben comprarse para desbloquear la siguiente habilidad. El oro es compartido entre todas las clases. La selección de clase y la compra de sus mejoras se realizan juntas en **Personaje**; ya no existe una pestaña de Tienda separada. Precios iniciales: clases normales 100.000, 400.000, 650.000 y 1.000.000; Berserker 200.000, 700.000, 1.100.000 y 1.800.000. El árbol completo requiere una inversión considerable; los precios del Berserker son mayores porque su potencial de recompensa también lo es.
 
 ### Modo Estudio
 
@@ -64,6 +64,14 @@ Práctica sin temporizador, penalizaciones ni recompensas de oro. Se muestra una
 ## Personalización inicial
 
 Los valores iniciales de recompensa, precios, mejoras de clase y duración de Frenesí se encuentran al inicio de `app.js`, en `DEFAULT_STATE`, `SKILLS` y `LEVELS`.
+
+## Cambios de la versión 3.1
+
+- La selección de documentos queda guardada y se reutiliza en las próximas partidas; los documentos recién importados se añaden automáticamente a las fuentes activas.
+- Se eliminó la pestaña Tienda: selección de clase, árbol de habilidades y compras están reunidos en Personaje. La clase activa se recuerda.
+- La partida usa una composición de pantalla fija que adapta la distribución según orientación y tamaño; los controles se reorganizan en vez de reducir toda la interfaz o exigir desplazamiento vertical.
+- Se elevaron nuevamente los precios de los cuatro nodos de cada clase: 100.000 / 400.000 / 650.000 / 1.000.000 para Ninja, Ladrón y Mago; 200.000 / 700.000 / 1.100.000 / 1.800.000 para Berserker.
+- Se renovó la caché del Service Worker a `proba-v3.1`.
 
 ## Correcciones de la versión 2
 
