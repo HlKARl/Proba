@@ -313,3 +313,47 @@ body.game-active{overflow:hidden}
 .settings-danger>b{color:#e0a097;font-size:13px}
 .settings-danger p{color:var(--muted);font-size:11px;line-height:1.5;margin:6px 0 12px}
 .danger-button{border:1px solid rgba(215,130,118,.55);border-radius:8px;padding:10px 13px;background:rgba(215,130,118,.1);color:#e6a59c;font-weight:700;font-size:12px}
+
+
+/* PROBA v3.3 — long answer banks scroll inside the answer area, never the game page. */
+.game-overlay{overflow:hidden;touch-action:pan-y}
+.question-card{min-height:0}
+.answer-list{flex:1 1 auto;min-height:72px;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(217,182,108,.45) transparent;padding:2px 4px 2px 0}
+.answer-list::-webkit-scrollbar{width:5px}
+.answer-list::-webkit-scrollbar-thumb{background:rgba(217,182,108,.4);border-radius:8px}
+.answer-option{height:auto;min-height:58px;white-space:normal;overflow-wrap:anywhere}
+.question-card h1{max-height:24%;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+@media(max-width:760px) and (orientation:portrait){
+ .question-card,.question-card:has(#nextQuestionButton:not(.hidden)){height:100%;min-height:0;justify-content:flex-start;overflow:hidden}
+ .question-card h1,.question-card:has(#nextQuestionButton:not(.hidden)) h1{flex:0 1 auto;max-height:23%;overflow-y:auto}
+ .answer-list,.question-card:has(#nextQuestionButton:not(.hidden)) .answer-list{flex:1 1 auto;min-height:84px;max-height:none;overflow-y:auto;grid-auto-rows:minmax(58px,auto);align-content:start;touch-action:pan-y}
+ .answer-option,.question-card:has(#nextQuestionButton:not(.hidden)) .answer-option{height:auto;min-height:58px}
+}
+@media(max-width:760px) and (orientation:landscape){
+ .question-card,.question-card:has(#nextQuestionButton:not(.hidden)){min-height:0;overflow:hidden}
+ .answer-list,.question-card:has(#nextQuestionButton:not(.hidden)) .answer-list{flex:1 1 auto;min-height:60px;overflow-y:auto;grid-auto-rows:minmax(42px,auto);align-content:start}
+}
+
+
+/* PROBA v4.0 — class trees and Mage event */
+.skill-node{grid-template-columns:42px minmax(0,1fr) auto;}
+.skill-node.owned{border-color:rgba(126,171,132,.26);}
+.skill-node.sacrifice{background:linear-gradient(145deg,rgba(68,42,35,.45),rgba(27,41,33,.96));}
+.node-copy{min-width:0;}
+.node-kicker{font-size:8px;letter-spacing:.14em;color:var(--gold);margin-bottom:4px;font-weight:700;}
+.skill-node.sacrifice .node-kicker{color:#d99a90;}
+.node-status{min-width:80px;}
+.mage-dice-panel{grid-column:1/-1;align-self:center;max-width:760px;width:100%;margin:22px auto;padding:30px;border:1px solid rgba(217,182,108,.4);border-radius:18px;background:linear-gradient(145deg,#1d2b22,#111a14);text-align:center;box-shadow:var(--shadow);}
+.dice-eyebrow{font-size:9px;letter-spacing:.18em;color:var(--gold);font-weight:700;}
+.dice-glyph{font-size:64px;line-height:1.2;color:var(--gold2);margin:12px 0;}
+.mage-dice-panel h2{font:32px var(--serif);margin:4px 0 8px;color:var(--gold2);}
+.mage-dice-panel>p{max-width:520px;margin:0 auto 18px;color:var(--muted);font-size:12px;line-height:1.6;}
+.dice-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0;}
+.dice-result{display:flex;align-items:center;gap:12px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:rgba(12,19,15,.45);min-width:0;}
+.dice-number{width:42px;height:42px;flex:0 0 42px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:10px;color:var(--gold2);font:23px var(--serif);}
+.dice-result b{font:15px var(--serif);color:var(--text);}
+.dice-result p{margin:4px 0 0;color:var(--muted);font-size:10px;line-height:1.45;}
+.dice-result .small-button{margin-left:auto;flex:0 0 auto;}
+.dice-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px;}
+.dice-actions button{min-width:180px;}
+@media(max-width:640px){.skill-node{grid-template-columns:36px minmax(0,1fr);gap:9px;padding:10px;}.skill-node .node-icon{width:34px;height:34px;}.node-status{grid-column:2;text-align:left;display:flex;align-items:center;gap:8px;min-width:0;}.node-status button{margin-top:0;}.dice-choices{grid-template-columns:1fr;}.dice-result{align-items:flex-start;flex-wrap:wrap;}.dice-result .small-button{margin-left:54px;}.mage-dice-panel{padding:20px 14px;}.mage-dice-panel h2{font-size:26px;}}

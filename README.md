@@ -1,94 +1,134 @@
-# PROBA — Aventura de conocimiento
+# PROBA v4.0 — Aventura de conocimiento
 
-PWA de estudio gamificado, diseñada para funcionar en GitHub Pages y guardar la biblioteca, las preguntas, el oro y el progreso localmente en el dispositivo.
+PROBA es una PWA de preguntas de opción múltiple para estudiar mediante campañas y sesiones de práctica. Funciona en el navegador, conserva la biblioteca y el progreso localmente y puede instalarse como aplicación.
 
 ## Publicar en GitHub Pages
 
-1. Crea un repositorio en GitHub, por ejemplo `proba`.
-2. Sube **todos los archivos de esta carpeta** a la raíz del repositorio (no subas la carpeta comprimida dentro del repositorio).
-3. En el repositorio entra a **Settings → Pages**.
-4. En **Build and deployment**, selecciona **Deploy from a branch**, elige `main` y la carpeta `/ (root)`, y guarda.
-5. Cuando GitHub termine el despliegue, abre la dirección que te muestre Pages. En un repositorio llamado `proba` normalmente será `https://TU-USUARIO.github.io/proba/`.
+1. Descomprime el ZIP y sube **el contenido completo** a la raíz del repositorio (no subas el ZIP dentro del repositorio).
+2. En GitHub abre **Settings → Pages**.
+3. En **Build and deployment**, selecciona **Deploy from a branch**, la rama `main` y la carpeta `/ (root)`.
+4. Abre la URL de GitHub Pages cuando termine el despliegue.
 
-La aplicación usa rutas relativas, por lo que funciona tanto en un dominio propio como en una página de proyecto de GitHub Pages. Se recomienda abrirla una vez con conexión para que el navegador instale el Service Worker y guarde la aplicación para uso sin conexión.
+La aplicación utiliza rutas relativas y puede funcionar tanto en un dominio de proyecto como en un dominio propio. Abre la página al menos una vez con conexión para que el navegador instale el Service Worker y guarde los archivos principales para uso sin conexión.
 
-## Importar preguntas
+## Biblioteca e importación
 
-En **Inicio**, crea una materia y luego importa uno o varios documentos. Puedes organizar, revisar, editar y eliminar bancos dentro de cada materia. En **Aventura**, activa una vez los documentos que quieras usar: Proba recordará esa selección para las siguientes partidas y añadirá automáticamente los nuevos documentos que importes.
+En **Inicio** crea materias y agrega documentos con bancos de preguntas. Puedes revisar, editar o eliminar preguntas y documentos. En **Aventura** selecciona las fuentes activas; la selección se conserva para futuras partidas.
 
-Formatos disponibles:
+Formatos de importación:
 
-- `.txt` y `.md`: formato de pregunta mostrado en `plantilla-preguntas-proba.txt`.
-- `.csv`: primera fila con encabezados `Pregunta,A,B,C,D,Respuesta,Explicación`.
-- `.docx`: preguntas escritas en párrafos con el mismo formato de la plantilla.
-- `.xlsx`: la primera hoja debe tener encabezados `Pregunta`, `A`, `B`, `C`, `D`, `Respuesta` y, opcionalmente, `Explicación`.
-- `.pdf`: debe tener texto seleccionable. El lector PDF se carga desde un CDN la primera vez que se importa un PDF; por eso la primera importación de PDF requiere conexión. Los PDF escaneados no tienen OCR integrado.
+- `.txt` y `.md`: utiliza `plantilla-preguntas-proba.txt`.
+- `.csv`: encabezados `Pregunta,A,B,C,D,Respuesta,Explicación`.
+- `.docx`: preguntas en párrafos con el formato de la plantilla.
+- `.xlsx`: primera hoja con las columnas `Pregunta`, `A`, `B`, `C`, `D`, `Respuesta` y, opcionalmente, `Explicación`.
+- `.pdf`: debe contener texto seleccionable. El lector PDF se carga desde un CDN la primera vez, por lo que la primera importación requiere conexión. No hay OCR integrado para PDF escaneados.
 
-Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, por ejemplo). La explicación es opcional. En archivos de texto se reconocen los encabezados numerados `Pregunta 1:`, `Pregunta 2:`, etc., aunque el extractor del documento no conserve líneas en blanco entre preguntas. También se admiten bloques separados por líneas en blanco y etiquetas como `Respuesta correcta: B`. Después de importar, revisa el contador de preguntas del documento antes de iniciar una campaña.
+Cada pregunta necesita un enunciado, opciones y una respuesta correcta (`Respuesta: B`, por ejemplo). La explicación es opcional. Después de importar, revisa el documento y confirma que el número de preguntas detectadas sea correcto.
 
-## Reglas iniciales del juego
+## Modos de juego
 
 ### Campaña
 
-- Tres niveles: 5, 10 y 15 preguntas (30 en total).
-- Cada múltiplo de cinco es un punto de control.
-- Oro inicial: 1.000.
-- Una respuesta correcta otorga 1.000 de oro la primera vez que se domina esa pregunta (el Berserker aplica su multiplicador). Una pregunta ya dominada no vuelve a dar oro, aunque se repita o se importe en otro documento.
-- Los bancos activos se deduplican por enunciado y alternativas: una misma pregunta no puede aparecer varias veces en una campaña por estar repetida en varios documentos.
-- Los bonos de nivel (5.000, 10.000 y 15.000; con el multiplicador de clase) solo se pagan cuando al menos el 60 % de las preguntas de ese nivel se dominan por primera vez. Este umbral permite que el Ninja obtenga el bono aunque esquive dos preguntas por cada tres aciertos. La bonificación final de victoria (10.000; Berserker 50.000) requiere que al menos el 60 % de la campaña sean preguntas nuevas dominadas.
-- Retirarse conserva todo el oro ganado durante la campaña.
-- Si una clase normal falla, conserva lo asegurado en puntos de control y pierde lo ganado desde el último punto de control.
-- Completar la campaña con al menos el 60 % de preguntas nuevas dominadas concede una bonificación general de 10.000 (Berserker: 50.000).
-- Si se completan los niveles I y II en menos de cinco minutos, se activa Frenesí: comodines ilimitados durante 90 segundos en el nivel III.
-- Las respuestas se confirman con dos pulsaciones: una para seleccionar y otra sobre la misma opción para confirmar.
-
-### Clases
-
-- **Ninja:** cada tres respuestas correctas permite saltar las dos preguntas siguientes. Las preguntas saltadas cuentan para avanzar por la campaña, pero no dan oro por respuesta.
-- **Ladrón:** elimina una alternativa incorrecta en cada pregunta.
-- **Mago:** convierte automáticamente el primer error de la campaña en un acierto y revela la respuesta correcta.
-- **Berserker:** gana el doble por cada acierto. Necesita tener oro general mayor que cero para entrar. Si pierde, pierde todo el oro de esa campaña —incluido lo que habría quedado asegurado— y además pierde el 10 % de su oro general. Si se retira o gana, conserva el oro de campaña; completar la campaña concede una bonificación especial de 50.000, mayor que la bonificación de las otras clases.
-
-Cada clase tiene su propio árbol de cinco rangos (nivel inicial y cuatro nodos). Los niveles fantasma no conceden una mejora directa, pero deben comprarse para desbloquear la siguiente habilidad. El oro es compartido entre todas las clases. La selección de clase y la compra de sus mejoras se realizan juntas en **Personaje**; ya no existe una pestaña de Tienda separada. Precios iniciales: clases normales 100.000, 400.000, 650.000 y 1.000.000; Berserker 200.000, 700.000, 1.100.000 y 1.800.000. El árbol completo requiere una inversión considerable; los precios del Berserker son mayores porque su potencial de recompensa también lo es.
+- Una campaña estándar tiene 30 posiciones: Nivel I (5 preguntas), Nivel II (10) y Nivel III (15).
+- Los puntos de control aparecen cada 5 posiciones. Para clases distintas del Berserker, el oro acumulado se asegura en esos puntos.
+- Se inicia con 1.000 de oro. Una pregunta correcta concede 1.000 de oro la primera vez que se domina en una campaña, aplicando el multiplicador de la clase cuando corresponde.
+- Las preguntas se deduplican entre documentos. La misma pregunta no vuelve a pagar oro después de haberse dominado, aunque se importe en otro banco o aparezca de nuevo.
+- Los bonos de nivel son 5.000, 10.000 y 15.000. Cada uno requiere dominar por primera vez al menos el 60 % de las preguntas de ese nivel. El multiplicador del Berserker se aplica a las recompensas por pregunta nueva, no a estos bonos. La Transmutación ×4 del Mago sí multiplica los bonos futuros. La bonificación por victoria es de 10.000 para las clases normales y 50.000 para el Berserker; exige dominar por primera vez al menos el 60 % de la campaña. La Transmutación del Mago también multiplica su bono futuro de victoria.
+- Retirarse termina la campaña, pero no aplica una penalización de cartera para clases normales. La regla especial del Berserker depende de su Nivel IV.
+- **No hay límite de tiempo para jugar.** El cronómetro solo comprueba si llegas a completar las primeras 15 posiciones en menos de 150 segundos. Si lo consigues, se activa Frenesí; si no, la campaña continúa normalmente.
+- Frenesí dura 90 segundos y ofrece 5 usos de cada comodín (50/50, Hint y Reintentar). No es necesario activarlo para completar la campaña.
+- Las respuestas se confirman en dos pulsaciones: la primera selecciona y la segunda confirma la misma opción.
 
 ### Modo Estudio
 
-Práctica sin temporizador ni penalizaciones. Una respuesta correcta otorga oro solamente la primera vez que se domina una pregunta nueva; repetir preguntas ya dominadas no genera oro. Se muestra una sola pregunta a la vez. Después de acertar o revisar un error, se utiliza el botón `Siguiente pregunta` para avanzar. Al responder mal, muestra la respuesta correcta y la explicación si fue importada; los errores quedan guardados para repasarlos desde el resultado y el Registro.
+- Permite practicar 5, 10, 15, 30 o todas las preguntas disponibles.
+- No tiene límite de tiempo, penalizaciones, habilidades de clase ni recompensas de oro.
+- Una respuesta correcta registra la pregunta como dominada. Ese registro es global, así que esa pregunta no podrá generar oro posteriormente en una campaña.
+- Los errores se guardan para repasarlos después.
 
-## Almacenamiento y respaldo
+## Clases y árboles de habilidades
 
-- La biblioteca y el progreso se guardan en IndexedDB (con alternativa a localStorage).
-- Los datos no se sincronizan con una cuenta ni se suben a un servidor.
-- Desde el engranaje de **Configuración** puedes exportar una copia JSON o restaurarla en otro dispositivo.
-- Borrar los datos del navegador sin una copia puede eliminar el progreso.
+Solo se puede escoger **una clase activa por campaña**. Los efectos de clases distintas nunca se combinan. Cada árbol tiene cinco niveles: una habilidad inicial y cuatro mejoras/sacrificios progresivos. Los sacrificios desbloqueados permanecen activos en las campañas de esa clase.
 
-## Personalización inicial
+### Ninja — velocidad y precisión
 
-Los valores iniciales de recompensa, precios, mejoras de clase y duración de Frenesí se encuentran al inicio de `app.js`, en `DEFAULT_STATE`, `SKILLS` y `LEVELS`.
+| Nivel | Efecto |
+|---|---|
+| I · Instinto de sombra | Cada 3 respuestas correctas consecutivas, obtiene 2 cargas de salto. Al inicio los saltos se usan automáticamente. |
+| II · Desapego (sacrificio) | Comienza sin el comodín Reintentar. |
+| III · Control del impulso | Decide cuándo usar los saltos y aumenta la reserva máxima a 4 cargas. |
+| IV · Impulso costoso (sacrificio) | Cada pregunta saltada cuesta 2 cargas en vez de una. Se necesitan al menos 2 cargas para saltar. |
+| V · Almacén de sombras | Aumenta la reserva máxima a 6 cargas. |
 
-## Cambios de la versión 3.1
+Saltar una pregunta no cuenta como acierto, no marca conocimiento nuevo y no concede oro.
 
-- La selección de documentos queda guardada y se reutiliza en las próximas partidas; los documentos recién importados se añaden automáticamente a las fuentes activas.
-- Se eliminó la pestaña Tienda: selección de clase, árbol de habilidades y compras están reunidos en Personaje. La clase activa se recuerda.
-- La partida usa una composición de pantalla fija que adapta la distribución según orientación y tamaño; los controles se reorganizan en vez de reducir toda la interfaz o exigir desplazamiento vertical.
-- Se elevaron nuevamente los precios de los cuatro nodos de cada clase: 100.000 / 400.000 / 650.000 / 1.000.000 para Ninja, Ladrón y Mago; 200.000 / 700.000 / 1.100.000 / 1.800.000 para Berserker.
-- Se renovó la caché del Service Worker a `proba-v3.1`.
+### Ladrón — manipulación de alternativas
 
-## Cambios de la versión 3.2
+| Nivel | Efecto |
+|---|---|
+| I · Robo de respuestas | Elimina automáticamente una alternativa incorrecta en cada pregunta. |
+| II · Codicia (sacrificio) | Comienza sin el comodín Reintentar. |
+| III · Hurto preciso | En las preguntas 5, 10, 15, 20, 25 y 30 elimina una segunda alternativa incorrecta. |
+| IV · Apuesta peligrosa (sacrificio) | No puede usar el comodín 50/50, tampoco durante Frenesí. |
+| V · Maestro del engaño | Elimina automáticamente dos alternativas incorrectas en cada pregunta. |
 
-- La pantalla de juego mantiene la pregunta, las cuatro alternativas y el feedback en una posición estable antes y después de responder. En móvil deja de esconder el encabezado o las opciones no seleccionadas y reorganiza los controles sin pedir desplazamiento de página.
-- El oro se concede una sola vez por pregunta dominada. La huella de conocimiento usa el enunciado y las alternativas normalizadas, así que importar de nuevo un banco o repetir una pregunta no vuelve a generar oro.
-- Las preguntas duplicadas entre documentos se deduplican al contar el banco y al formar la campaña.
-- Los bonos de nivel se otorgan cuando al menos el 60 % de las preguntas del nivel son nuevas y se dominan por primera vez. La bonificación final requiere que al menos el 60 % de la campaña sean preguntas nuevas dominadas; así la habilidad de saltos del Ninja no elimina por completo sus recompensas de nivel.
-- Modo Estudio también puede recompensar el primer dominio de una pregunta, sin temporizador ni penalizaciones; los aciertos repetidos no pagan.
-- Configuración incorpora `Restablecer oro y personaje`: devuelve 1.000 de oro, bloquea las mejoras y limpia el historial, pero conserva la biblioteca y el registro de preguntas ya dominadas para impedir volver a farmear el mismo contenido.
-- Se renueva la caché del Service Worker a `proba-v3.2`.
+La habilidad nunca elimina la respuesta correcta ni deja menos de dos alternativas visibles. Los efectos automáticos del Ladrón y el comodín 50/50 están limitados para no revelar la respuesta por descarte.
 
-## Correcciones de la versión 2
+### Mago — azar y alteración de la campaña
 
-- La lectura de preguntas numeradas ya no depende de líneas en blanco; esto evita fusionar preguntas al extraer texto de PDF/DOCX.
-- Se añadió avance explícito con el botón `Siguiente pregunta` en Estudio y tras acertar en Campaña.
-- Se añadió un bloqueo de respuesta para evitar que una misma pregunta se contabilice dos veces.
-- El saldo inicial es de 1.000 de oro. Los perfiles de la versión anterior que tenían el saldo inicial de 0 reciben el saldo inicial durante la migración.
-- La interfaz limita el desbordamiento horizontal y adapta la vista de partida a pantallas estrechas y de poca altura.
-- Se renovó la caché del Service Worker para que GitHub Pages descargue los archivos corregidos.
+| Nivel | Efecto |
+|---|---|
+| I · Dados del destino | Al llegar a la pregunta 10, lanza un dado con seis resultados posibles. |
+| II · Pacto arcano (sacrificio) | Comienza sin el comodín Reintentar. |
+| III · Manipulación del destino | Una vez por campaña, puede posponer el lanzamiento desde la pregunta 10 hasta la 15. |
+| IV · Deuda mágica (sacrificio) | Su campaña base tiene 35 preguntas en vez de 30. Necesita 35 preguntas distintas disponibles en las fuentes activas. |
+| V · Doble destino | Lanza dos dados y elige cuál de los dos resultados aplicar. |
+
+Resultados del dado:
+
+1. **Transmutación ×4:** multiplica por cuatro las futuras ganancias de oro de esa campaña, incluidos los bonos posteriores.
+2. **Salto dimensional:** salta las siguientes 10 posiciones; no las responde ni obtiene oro por ellas.
+3. **Caos alternado:** salta una de cada dos preguntas restantes.
+4. **Retorno al origen:** vuelve a la pregunta 1 conservando el oro acumulado. Las preguntas ya dominadas no vuelven a pagar y los bonos de nivel ya procesados no se repiten.
+5. **Deuda del destino:** añade 5 preguntas. Primero utiliza preguntas distintas todavía no incorporadas al juego; si no quedan suficientes, repite preguntas ya vistas. Las repeticiones no generan oro de nuevo.
+6. **Robo arcano:** recibe 2 usos adicionales de comodines aleatorios.
+
+El dado se resuelve una sola vez por campaña. El multiplicador ×4 no se acumula consigo mismo. El efecto de retorno conserva el progreso y evita repetir bonificaciones ya cobradas.
+
+### Berserker — riesgo y recompensa
+
+| Nivel | Efecto |
+|---|---|
+| I · Furia | Multiplica por 2 el oro de las preguntas nuevas dominadas. |
+| II · Descontrol (sacrificio) | Comienza sin el comodín Reintentar. |
+| III · Sed de sangre | El multiplicador de oro aumenta a ×3. |
+| IV · Sin retirada (sacrificio) | Si se retira voluntariamente, pierde todo el oro acumulado en esa campaña. |
+| V · Furia absoluta | El multiplicador aumenta a ×4. La bonificación por victoria es de 50.000. |
+
+El Berserker necesita tener oro general superior a cero para iniciar una campaña. Si falla, pierde todo el oro de esa campaña, incluido lo que otras clases habrían asegurado en puntos de control, y además paga una penalización del 10 % de su cartera general. Si se retira antes de desbloquear el Nivel IV, conserva el oro de campaña; después de desbloquearlo, la retirada también destruye ese oro. La retirada no añade el 10 % de penalización: ese cargo corresponde al fallo.
+
+## Oro, dominio y prevención de recompensas repetidas
+
+- El oro es compartido entre todas las clases y comienza en 1.000.
+- Solo las campañas conceden oro. El Modo Estudio no entrega monedas.
+- El dominio de una pregunta se registra globalmente y una pregunta paga como máximo una vez, sin importar la materia o documento donde aparezca.
+- Los bonos de nivel y victoria requieren el umbral del 60 % de preguntas nuevas y no se pueden repetir regresando al inicio con el Mago.
+- Los puntos de control aseguran el oro de campaña de las clases normales cada 5 posiciones. El Berserker nunca asegura oro durante la campaña.
+- `Restablecer oro y personaje` devuelve la cartera a 1.000, bloquea las mejoras y limpia el historial, pero conserva materias, documentos y preguntas dominadas para impedir volver a farmear el mismo contenido.
+
+## Datos y privacidad
+
+La biblioteca, el oro, las habilidades, las preguntas dominadas y el historial se guardan en IndexedDB, con alternativa a localStorage. No se requiere cuenta ni servidor y los datos no se sincronizan en la nube. En **Configuración** puedes exportar una copia JSON y restaurarla en otro navegador o dispositivo. Borrar los datos del navegador sin respaldo puede eliminar el progreso.
+
+## Migración desde v3.3
+
+Al abrir v4.0 con los datos locales de v3.3, PROBA conserva la biblioteca, documentos, selección de fuentes, oro, historial y registro de preguntas dominadas. El número de mejoras que ya tenía cada clase se traslada al mismo número de niveles desbloqueados del nuevo árbol de cinco niveles. Haz una copia de seguridad antes de actualizar, especialmente si tienes progreso valioso.
+
+## Archivos principales
+
+- `index.html`: estructura de las pantallas.
+- `styles.css`: diseño adaptable.
+- `app.js`: lógica, importación, economía, clases y campañas.
+- `sw.js`: caché de la aplicación para uso sin conexión.
+- `manifest.json` e `icon.svg`: instalación e identidad de la PWA.
+- `plantilla-preguntas-proba.txt`: plantilla de importación.
