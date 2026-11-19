@@ -33,11 +33,12 @@ Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, po
 - Tres niveles: 5, 10 y 15 preguntas (30 en total).
 - Cada múltiplo de cinco es un punto de control.
 - Oro inicial: 1.000.
-- Recompensa por respuesta correcta: 1.000 de oro.
-- Bonos por completar cada nivel: 5.000, 10.000 y 15.000 de oro.
+- Una respuesta correcta otorga 1.000 de oro la primera vez que se domina esa pregunta (el Berserker aplica su multiplicador). Una pregunta ya dominada no vuelve a dar oro, aunque se repita o se importe en otro documento.
+- Los bancos activos se deduplican por enunciado y alternativas: una misma pregunta no puede aparecer varias veces en una campaña por estar repetida en varios documentos.
+- Los bonos de nivel (5.000, 10.000 y 15.000; con el multiplicador de clase) solo se pagan cuando al menos el 60 % de las preguntas de ese nivel se dominan por primera vez. Este umbral permite que el Ninja obtenga el bono aunque esquive dos preguntas por cada tres aciertos. La bonificación final de victoria (10.000; Berserker 50.000) requiere que al menos el 60 % de la campaña sean preguntas nuevas dominadas.
 - Retirarse conserva todo el oro ganado durante la campaña.
 - Si una clase normal falla, conserva lo asegurado en puntos de control y pierde lo ganado desde el último punto de control.
-- Completar la campaña concede una bonificación general de 10.000.
+- Completar la campaña con al menos el 60 % de preguntas nuevas dominadas concede una bonificación general de 10.000 (Berserker: 50.000).
 - Si se completan los niveles I y II en menos de cinco minutos, se activa Frenesí: comodines ilimitados durante 90 segundos en el nivel III.
 - Las respuestas se confirman con dos pulsaciones: una para seleccionar y otra sobre la misma opción para confirmar.
 
@@ -52,7 +53,7 @@ Cada clase tiene su propio árbol de cinco rangos (nivel inicial y cuatro nodos)
 
 ### Modo Estudio
 
-Práctica sin temporizador, penalizaciones ni recompensas de oro. Se muestra una sola pregunta a la vez. Después de acertar o revisar un error, se utiliza el botón `Siguiente pregunta` para avanzar. Al responder mal, muestra la respuesta correcta y la explicación si fue importada; los errores quedan guardados para repasarlos desde el resultado y el Registro.
+Práctica sin temporizador ni penalizaciones. Una respuesta correcta otorga oro solamente la primera vez que se domina una pregunta nueva; repetir preguntas ya dominadas no genera oro. Se muestra una sola pregunta a la vez. Después de acertar o revisar un error, se utiliza el botón `Siguiente pregunta` para avanzar. Al responder mal, muestra la respuesta correcta y la explicación si fue importada; los errores quedan guardados para repasarlos desde el resultado y el Registro.
 
 ## Almacenamiento y respaldo
 
@@ -72,6 +73,16 @@ Los valores iniciales de recompensa, precios, mejoras de clase y duración de Fr
 - La partida usa una composición de pantalla fija que adapta la distribución según orientación y tamaño; los controles se reorganizan en vez de reducir toda la interfaz o exigir desplazamiento vertical.
 - Se elevaron nuevamente los precios de los cuatro nodos de cada clase: 100.000 / 400.000 / 650.000 / 1.000.000 para Ninja, Ladrón y Mago; 200.000 / 700.000 / 1.100.000 / 1.800.000 para Berserker.
 - Se renovó la caché del Service Worker a `proba-v3.1`.
+
+## Cambios de la versión 3.2
+
+- La pantalla de juego mantiene la pregunta, las cuatro alternativas y el feedback en una posición estable antes y después de responder. En móvil deja de esconder el encabezado o las opciones no seleccionadas y reorganiza los controles sin pedir desplazamiento de página.
+- El oro se concede una sola vez por pregunta dominada. La huella de conocimiento usa el enunciado y las alternativas normalizadas, así que importar de nuevo un banco o repetir una pregunta no vuelve a generar oro.
+- Las preguntas duplicadas entre documentos se deduplican al contar el banco y al formar la campaña.
+- Los bonos de nivel se otorgan cuando al menos el 60 % de las preguntas del nivel son nuevas y se dominan por primera vez. La bonificación final requiere que al menos el 60 % de la campaña sean preguntas nuevas dominadas; así la habilidad de saltos del Ninja no elimina por completo sus recompensas de nivel.
+- Modo Estudio también puede recompensar el primer dominio de una pregunta, sin temporizador ni penalizaciones; los aciertos repetidos no pagan.
+- Configuración incorpora `Restablecer oro y personaje`: devuelve 1.000 de oro, bloquea las mejoras y limpia el historial, pero conserva la biblioteca y el registro de preguntas ya dominadas para impedir volver a farmear el mismo contenido.
+- Se renueva la caché del Service Worker a `proba-v3.2`.
 
 ## Correcciones de la versión 2
 
