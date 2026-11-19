@@ -24,7 +24,7 @@ Formatos disponibles:
 - `.xlsx`: la primera hoja debe tener encabezados `Pregunta`, `A`, `B`, `C`, `D`, `Respuesta` y, opcionalmente, `Explicación`.
 - `.pdf`: debe tener texto seleccionable. El lector PDF se carga desde un CDN la primera vez que se importa un PDF; por eso la primera importación de PDF requiere conexión. Los PDF escaneados no tienen OCR integrado.
 
-Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, por ejemplo). La explicación es opcional. En archivos de texto, cada pregunta debe estar separada de la siguiente por una línea en blanco; también se reconocen etiquetas como `Respuesta correcta: B`.
+Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, por ejemplo). La explicación es opcional. En archivos de texto se reconocen los encabezados numerados `Pregunta 1:`, `Pregunta 2:`, etc., aunque el extractor del documento no conserve líneas en blanco entre preguntas. También se admiten bloques separados por líneas en blanco y etiquetas como `Respuesta correcta: B`. Después de importar, revisa el contador de preguntas del documento antes de iniciar una campaña.
 
 ## Reglas iniciales del juego
 
@@ -32,6 +32,7 @@ Cada pregunta debe incluir opciones y una respuesta correcta (`Respuesta: B`, po
 
 - Tres niveles: 5, 10 y 15 preguntas (30 en total).
 - Cada múltiplo de cinco es un punto de control.
+- Oro inicial: 1.000.
 - Recompensa por respuesta correcta: 1.000 de oro.
 - Bonos por completar cada nivel: 5.000, 10.000 y 15.000 de oro.
 - Retirarse conserva todo el oro ganado durante la campaña.
@@ -51,7 +52,7 @@ Cada clase tiene su propio árbol de cinco rangos (nivel inicial y cuatro nodos)
 
 ### Modo Estudio
 
-Práctica sin temporizador, penalizaciones ni recompensas de oro. Al responder mal, muestra la respuesta correcta y la explicación si fue importada; los errores quedan guardados para repasarlos desde el resultado y el Registro.
+Práctica sin temporizador, penalizaciones ni recompensas de oro. Se muestra una sola pregunta a la vez. Después de acertar o revisar un error, se utiliza el botón `Siguiente pregunta` para avanzar. Al responder mal, muestra la respuesta correcta y la explicación si fue importada; los errores quedan guardados para repasarlos desde el resultado y el Registro.
 
 ## Almacenamiento y respaldo
 
@@ -63,3 +64,12 @@ Práctica sin temporizador, penalizaciones ni recompensas de oro. Al responder m
 ## Personalización inicial
 
 Los valores iniciales de recompensa, precios, mejoras de clase y duración de Frenesí se encuentran al inicio de `app.js`, en `DEFAULT_STATE`, `SKILLS` y `LEVELS`.
+
+## Correcciones de la versión 2
+
+- La lectura de preguntas numeradas ya no depende de líneas en blanco; esto evita fusionar preguntas al extraer texto de PDF/DOCX.
+- Se añadió avance explícito con el botón `Siguiente pregunta` en Estudio y tras acertar en Campaña.
+- Se añadió un bloqueo de respuesta para evitar que una misma pregunta se contabilice dos veces.
+- El saldo inicial es de 1.000 de oro. Los perfiles de la versión anterior que tenían el saldo inicial de 0 reciben el saldo inicial durante la migración.
+- La interfaz limita el desbordamiento horizontal y adapta la vista de partida a pantallas estrechas y de poca altura.
+- Se renovó la caché del Service Worker para que GitHub Pages descargue los archivos corregidos.
